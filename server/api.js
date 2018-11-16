@@ -4,23 +4,13 @@ const models = require('./db')
 const express = require('express')
 const router = express.Router()
 
-/** *********** 创建(create) 读取(get) 更新(update) 删除(delete) **************/
+/** *********** POST样例 **************/
 
 // 创建账号接口
-router.post('/api/blog/createBlog', (req, res) => {
-  // 这里的req.body能够使用就在index.js中引入了const bodyParser = require('body-parser')
-    let newAccount = new models.Login({
-        account: req.body.account,
-        password: req.body.password
-    })
-  // 保存数据newAccount数据进mongoDB
-  newAccount.save((err, data) => {
-    if (err) {
-        res.send(err)
-    } else {
-        res.send('createAccount successed')
-    }
-  })
+router.post('/api/test', (req, res) => {
+    // 这里的req.body能够使用就在index.js中引入了const bodyParser = require('body-parser')
+    console.log(req.body)
+    res.send('getData')
 })
 
 /** ***********            博客数据操作            **************/
@@ -65,17 +55,6 @@ router.get('/api/getTimeLine', (req, res) => {
         res.send(docs)
     })
 
-})
-// 获取博客摘要
-router.get('/api/test', (req, res) => {
-  models.Blog.find({}, ['abstract', 'category', 'cover', 'like', 'time', 'title', 'pageView'], (err, data) => {
-    if (err) {
-        res.send(err)
-    } else {
-        console.log(data)
-        res.send(data)
-    }
-  })
 })
 /** ***********            菜单数据操作            **************/
 // 置顶
