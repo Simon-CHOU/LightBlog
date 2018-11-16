@@ -6,7 +6,7 @@ const router = express.Router()
 
 /** *********** POST样例 **************/
 
-// 创建账号接口
+// 测试接口， 可以尝试往这个接口通过post传数据
 router.post('/api/test', (req, res) => {
     // 这里的req.body能够使用就在index.js中引入了const bodyParser = require('body-parser')
     console.log(req.body)
