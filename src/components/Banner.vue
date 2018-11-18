@@ -2,10 +2,10 @@
   <div class="banner">
     <div id="banner" class="fader">
       <li class="slide">
-        <a href="/more/life/2.html" title="【匆匆那些年】总结个人博客经历的这四年…" target="_blank" v-if="banners.length>0">
+        <router-link :to="{name:'detail',query:{blogId:banners[0]._id}}" v-if="banners.length>0">
           <img :src="banners[0].cover">
           <span class="imginfo">{{banners[0].abstract}}</span>
-        </a></li>
+        </router-link></li>
       <div class="fader_controls">
         <div class="page prev" data-target="prev">&lsaquo;</div>
         <div class="page next" data-target="next">&rsaquo;</div>

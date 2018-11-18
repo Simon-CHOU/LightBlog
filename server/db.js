@@ -30,13 +30,13 @@ const blogSchema = mongoose.Schema({
   subject: Boolean,       //是否为主题
   content: String,        //博客内容：html字符串
   cover:String,           //博客封面
-  comments:[{author:String,time:String,content:String,reply:Boolean,replyTarget:String}]
+  comments:[{author:String,time:String,content:String,comments:[{author:String,time:String,content:String}]}]
 })
 //轮播图
 blogSchema.statics.getBanners = function(){
   return this.find({'banner':true},['cover','title']);
 }
-//博客
+//博客列表
 blogSchema.statics.getBlogs = function(page = 1,limit = 3,category,sub_catgory){
     if(category == 'all')
       return this.find({},['abstract','category','cover','like','time','title','pageView']).skip((page-1)*limit).limit(limit);
@@ -45,6 +45,16 @@ blogSchema.statics.getBlogs = function(page = 1,limit = 3,category,sub_catgory){
     else
       return this.find({'category':category,'sub_category':sub_catgory},['abstract','category','cover','like','time','title','pageView']).skip((page-1)*limit).limit(limit);
 }
+//单个博客
+blogSchema.statics.getBlog = function(blogId){
+  return this.find({'_id':blogId},['abstract','author','category','sub_category','like','time','title','pageView','content','comments']).limit(1);
+}
+//单个博客的评论
+blogSchema.statics.getComment = function(blogId){
+  return this.find({'_id':blogId},['comments']).limit(1);
+}
+
+
 //推荐博客
 blogSchema.statics.getRecommends = function(){
   return this.find({},['cover','time','title']).sort({'pageView':-1}).limit(5);

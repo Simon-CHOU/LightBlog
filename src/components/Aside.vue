@@ -1,21 +1,21 @@
 <template>
     <div class="sidebar">
         <div class="toppic" v-if="useToppic" >
-            <li v-for="(v,i) in toppics"  :key='i'>
-                <a href="/more/life/3.html" title="安静地做一个爱设计的女子" target="_blank">
+            <li v-for="(v,i) in toppics"  :key='i' >
+                <router-link  :to="{name:'detail',query:{blogId:v._id}}"  >
                     <i><img :src="v.cover"></i>
                     <h2>{{v.title}}</h2> 
-                </a> 
+                </router-link> 
             </li>
         </div>
 
         <div class="subject">
             <h2 class="hometitle">专题</h2>
             <ul>
-                <li v-for="(v,i) in subjects"  :key='i' > 
+                <li v-for="(v,i) in subjects"  :key='i'  > 
                     <i><img :src='v.cover'></i>
                     <p>{{v.title}}<span>
-                        <a href="/more/life/8.html" title="作为一个设计师,如果遭到质疑你是否能恪守自己的原则?" target="_blank">阅读</a></span> </p>
+                        <router-link  :to="{name:'detail',query:{blogId:v._id}}"  >阅读</router-link></span> </p>
                 </li>       
             </ul>   
         </div>
@@ -24,12 +24,12 @@
             <h2 class="hometitle">特别推荐</h2>
             <ul class="tjpic"  v-for="(v,i) in recommends"  :key='i' v-if='i==0' >
                 <i><img :src='v.cover'></i>
-                <p><a href="/more/show/19.html" title="作为一个设计师,如果遭到质疑你是否能恪守自己的原则" target="_blank">{{v.title}}</a></p>
+                <p><router-link  :to="{name:'detail',query:{blogId:v._id}}" >{{v.title + v._id}}</router-link></p>
             </ul>
             <ul class="sidenews">
-                <li v-for="(v,i) in recommends"  :key='i' v-if='i>0' > 
+                <li v-for="(v,i) in recommends"  :key='i' v-if='i>0'  > 
                     <i><img :src="v.cover"></i>
-                    <p><a href="/more/study/1/1.html" title="个人博客，属于我的小世界！" target="_blank">{{v.title}}</a></p>
+                    <p><router-link  :to="{name:'detail',query:{blogId:v._id}}" >{{v.title}}</router-link></p>
                     <span>{{v.time}}</span>
                 </li>
             </ul>

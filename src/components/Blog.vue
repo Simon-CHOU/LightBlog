@@ -1,10 +1,10 @@
 <template>
   <div class="blogs">
-    <h3 class="blogtitle"><a href="/more/show/19.html" target="_blank">{{title}}</a></h3>
+    <h3 class="blogtitle"><router-link :to="{name:'detail',query:{blogId:_id}}"  >{{title}}</router-link></h3>
     <span class="blogpic">
-      <a href="/more/show/19.html" title="作为一个设计师,如果遭到质疑你是否能恪守自己的原则">
+      <router-link  :to="{name:'detail',query:{blogId:_id}}" >
         <img :src="cover" alt="图片加载失败">
-      </a>
+      </router-link>
     </span>
 
     <p class="blogtext">{{abstract}}</p>
@@ -29,7 +29,7 @@
         scrollReveal: scrollReveal()
       }
     },
-    props: ["title", "abstract", "category", "time", "pageView", "like", "cover"],
+    props: ["_id","title", "abstract", "category", "time", "pageView", "like", "cover"],
 
     mounted: function () {
       //console.log(this.scrollReveal);

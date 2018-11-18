@@ -1,7 +1,7 @@
 <template  >
     <div  id='blogsbox'   class="blogsbox" >
  
-    <Blog v-for="(v,i) in blogs"  :key='i' :title = v.title  :abstract= v.abstract  :time= v.time :category= v.category :pageView= v.pageView :like= v.like :cover= v.cover></Blog>
+    <Blog v-for="(v,i) in blogs"  :key='i' :title = v.title  :_id= v._id :abstract= v.abstract  :time= v.time :category= v.category :pageView= v.pageView :like= v.like :cover= v.cover></Blog>
 
     </div>
 </template>

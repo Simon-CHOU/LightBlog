@@ -1,12 +1,11 @@
 <template>
   <div id="app">
     <Header :selectedMenu="selectedMenu"></Header>
-    <router-view v-on:changemenu="changeMenu"/>
+    <router-view />
   </div>
 </template>
 
 <script>
-import hcSticky from 'hc-sticky'
 import Header from './components/Header'
 
 export default {
@@ -33,7 +32,7 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
- 
+  height: 100%;
   color: #2c3e50;
   margin-top: 60px;
 }

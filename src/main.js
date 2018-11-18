@@ -7,7 +7,7 @@ import router from './router'
 import vueResource from 'vue-resource'
 import $ from 'jquery'
 import './assets/css/index.css'
-
+import 'font-awesome/css/font-awesome.css'
 Vue.use(vueResource)
 
 Vue.config.productionTip = false
