@@ -11,7 +11,7 @@
 			</h1>
             <div class="timebox">
                 <ul id="list">
-                    <li class='li' v-for='(v,i) in timeline' :key=i ><span>{{v.time}}</span><a href="" target="_blank">{{v.title}}</a></li>
+                    <li class='li' v-for='(v,i) in timeline' :key=i ><span>{{v.time}}</span><router-link  :to="{name:'detail',query:{blogId:v._id}}">{{v.title}}</router-link></li>
                 </ul>
             </div>
        </div>
