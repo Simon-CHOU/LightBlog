@@ -363,7 +363,6 @@
 				},
 				success: (data) => {
                     _self.detail.like+=num;
-                    console.log(data);
 				}
 			});
             

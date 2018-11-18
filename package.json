@@ -14,6 +14,8 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "bootstrap": "^3.3.0",
+    "element-ui": "^2.4.10",
     "font-awesome": "^4.7.0",
     "hc-sticky": "^2.2.3",
     "highlight.js": "^9.13.1",

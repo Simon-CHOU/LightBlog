@@ -40,6 +40,8 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
+      'assets': path.resolve(__dirname, '../src/assets'),  
+      'jquery': "jquery/src/jquery"  
     }
   },
   module: {
@@ -98,7 +100,8 @@ module.exports = {
     
     new webpack.ProvidePlugin({
     jQuery: "jquery",
-    $: "jquery"
+    $: "jquery",
+    "windows.jQuery":"jquery" 
     }),
 
     

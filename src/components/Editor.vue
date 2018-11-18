@@ -6,8 +6,72 @@
         </div>
         <div class="maskContainer" v-if="dilogStatus">
             <div class="contentContainer">
-            <div class="closeBtnContainer" @click="closeMaskFn"></div>
-                <textarea class="showAreaContainer" v-model="msgShow" readonly></textarea>
+
+             
+                <el-form :model="form" status-icon :rules="rules" ref="form"  label-width="80px">
+                    <el-form-item label="标题" prop="title">
+                        <el-input v-model="form.title"></el-input>
+                    </el-form-item>
+                     <el-form-item label="作者" prop="author">
+                        <el-input v-model="form.author"></el-input>
+                    </el-form-item>
+
+                    <el-row type="flex" class="row-bg">
+                        <el-col :span="12">
+                            <el-form-item label="类别" prop="category_name">
+                                <el-select v-model="form.category_name" placeholder="请选择主类别" >
+                                <el-option label="区域一" value="shanghai"></el-option>
+                                <el-option label="区域二" value="beijing"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-form-item label="类别" prop="sub_category_name">
+                            <el-select v-model="form.sub_category_name" placeholder="请选择子类别">
+                            <el-option label="区域一" value="shanghai"></el-option>
+                            <el-option label="区域二" value="beijing"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-row>
+                    <el-form-item label="摆放">
+                        轮播图<el-switch v-model="form.banner"></el-switch>&nbsp;&nbsp;&nbsp;&nbsp;
+                        置顶<el-switch v-model="form.toppic"></el-switch>&nbsp;&nbsp;&nbsp;&nbsp;
+                        专题<el-switch v-model="form.subject"></el-switch>&nbsp;&nbsp;&nbsp;&nbsp;
+                    </el-form-item>
+
+                    <el-form-item >
+                        <el-tag
+                            :key="tag"
+                            v-for="tag in form.tags"
+                            closable
+                            :disable-transitions="false"
+                            @close="handleClose(tag)">
+                            {{tag}}
+                            </el-tag>
+                            <el-input
+                            class="input-new-tag"
+                            v-if="inputVisible"
+                            v-model="inputValue"
+                            ref="saveTagInput"
+                            size="small"
+                            @keyup.enter.native="handleInputConfirm"
+                            @blur="handleInputConfirm"
+                            >
+                        </el-input>
+                        <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+                    </el-form-item>
+
+
+                    <el-form-item label="摘要" prop="abstract">
+                        <el-input type="textarea" v-model="form.abstract"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="submitForm('form')">确定</el-button>
+                        <el-button @click="resetForm('form')">重置</el-button>
+                    </el-form-item>
+                </el-form>
+
+
+                <!-- <textarea class="showAreaContainer" v-model="msgShow" readonly></textarea> -->
             </div>
         </div>
         <div class="editorContainer">
@@ -26,6 +90,9 @@
 
 <script>
     import markdown from '../components/Markdown'
+   
+    import 'bootstrap/dist/js/bootstrap.min.js'
+     import 'bootstrap/dist/css/bootstrap.min.css'
     export default {
         name: 'Editor',
         data() {
@@ -34,6 +101,28 @@
                 dilogStatus:true,
                 msg: {
                     mdValue:'## Vue-markdownEditor'
+                },
+                form:{
+                    author:'',
+                    abstract:'',
+                    category_name:'',
+                    sub_category_name:'',
+                    title: '',
+                    tags: ['数据可视化'],
+                    banner:false,
+                    toppic:false,
+                    subject:false,
+
+                },
+                
+                inputVisible: false,
+                inputValue: '',
+                rules: {
+                    author: [{required: true, message: '请输入名称', trigger: 'blur'},{min: 2, max: 10, message: '长度在 2 到 10 个字符', trigger: 'blur'}],
+                    abstract: [{ required: true, message:'请填写摘要', trigger:'blur'}],
+                    category_name: [{required: true, message: '请选择主类别', trigger: 'change'}],
+                    sub_category_name: [{required: true, message: '请选择子类别', trigger: 'change'}],
+                    title: [{required: true, message: '请输入标题', trigger: 'blur'},{min: 3, max: 50, message: '长度在 3 到 50 个字符', trigger: 'blur'}],
                 }
             }
         },
@@ -57,12 +146,51 @@
             closeMaskFn:function(){
                 this.msgShow='';
                 this.dilogStatus=false;
-            }
+            },
+
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    //alert('submit!');
+                    this.closeMaskFn();
+                    console.log(this.form)
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+                });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            },
+
+
+
+            handleClose(tag) {
+        this.form.tags.splice(this.form.tags.indexOf(tag), 1);
+      },
+
+      showInput() {
+        this.inputVisible = true;
+        this.$nextTick(_ => {
+          this.$refs.saveTagInput.$refs.input.focus();
+        });
+      },
+
+      handleInputConfirm() {
+        let inputValue = this.inputValue;
+        if (inputValue) {
+          this.form.tags.push(inputValue);
+        }
+        this.inputVisible = false;
+        this.inputValue = '';
+      }
         }
     }
 </script>
 
 <style lang="scss" scoped>
+
     .show{
         position: absolute;
         left: 0;
@@ -186,5 +314,22 @@
         width: 90%;
         height: 90%;
         border: 1px solid #ddd;
+    }
+
+
+    .el-tag + .el-tag {
+        margin-left: 10px;
+    }
+    .button-new-tag {
+        margin-left: 10px;
+        height: 32px;
+        line-height: 30px;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    .input-new-tag {
+        width: 90px;
+        margin-left: 10px;
+        vertical-align: bottom;
     }
 </style>
